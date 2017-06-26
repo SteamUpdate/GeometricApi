@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-light">
+      <h3>
+        Справка
+      </h3>
+    </nav>
+
+    <div class="container-fluid">
+
+      <!-- элементы управления -->      
+
+      <div class="card mb-3">
+        <div class="card-header">
+          Графический редактор "Raphael"
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Raphael</h4>
+          <p class="card-text">
+            Raphael - это инструмент для работы с векторной графикой.
+            Он представляет собой прямоугольное поле, внутри которого рисуются всевозможноные графические объекты.
+            Более подробно о этом инструменте можно почитать <a href="http://dmitrybaranovskiy.github.io/raphael/">тут</a>.
+          </p>
+          <img class="card-img-bottom" src="images\raphael_editor.png">
+        </div>
+
+        <div class="card-block">
+          <h4 class="card-title">Режим работы с графическим объектом</h4>
+          <p class="card-text">
+            На данный момент есть возможность работать с двумя типами графических объектов: с геометрическим местом точек и с графами.
+            Переключение режимов происходит с помщью кнопок, представленных на рисунке.
+          </p>
+          <img class="card-img-bottom mb-3" src="images\rezhim1.png">
+          <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Обратите внимание!</h4>
+            При работе с геометрическим местом точек доступен только режим рисования точек.
+            При работе с графами доступны оба режима рисования.
+          </div>
+          <h4 class="card-title">Режим рисования</h4>
+          <p class="card-text">
+            На данный момент доступно два режима рисования: рисование точек и рисование линий.
+            Рисование точек происходит по клику мыши: там, где был курсор мыши, нарисуется точка.
+            Рисование линий происходит следующим образом: кликом выбирается первая точка (начало линии), затем кликом выбирается вторая точка (конец линии).            
+          </p>
+          <img class="card-img-bottom mb-3" src="images\rezhim2.png">
+          <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Обратите внимание!</h4>
+            Чтобы избежать конфликтов при рисовании точек и линий посредством кликов мыши, было добавлено следующее ограничение: в режиме рисования точек нельзя рисовать линии и наоборот – в режиме рисования линий нельзя рисовать точки.
+          </div>
+        </div>
+
+        <div class="card-block">
+          <h4 class="card-title">Сохранение и загрузка графического объекта</h4>
+          <p class="card-text">
+            Постоянно рисовать объект бывает весьма накладно, так как занимает много времени.
+            Для удобства были добавлены кнопки выгрузки и загрузки входных данных.
+            Данные сохраняются в формате JSON в файл с соответствующим расширением.
+          </p>
+          <img class="card-img-bottom" src="images\load_buttons.png">
+        </div>        
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          Редактор кода "Ace"
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Ace</h4>
+          <p class="card-text">
+            Редактор кода, где можно (и нужно) писать интересующие вас алгоритмы. Обладает подсветкой javascript-синтаксиса.
+          </p>
+          <img class="card-img-bottom mb-3" src="images\code_editor.png">
+          <p class="card-text">
+            Чтобы выполнить код, написанный в редакторе, достаточно нажать на кнопку "Выполнить".
+            Так же для данного действия доступна комбинация клавиш Ctrl+Enter.
+          </p>
+          <img class="card-img-bottom" src="images\execute_button.png">
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Встроенные алгоритмы</h4>
+          <p class="card-text">
+            Для демонстрации работы инструмента было добавлено несколько встроенных алгоритмов.
+            Всего добавлено три встроенных алгоритма: построение выпуклой оболочки, поиск в ширину, поиск в глубину.
+            Выбирая один из данных алгоритмов, его исходный код копируется в редактор, после чего данный код можно выполнить и запустить визуализацию алгоритма.            
+          </p>
+          <img class="card-img-bottom mb-3" src="images\selector.png">   
+          <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Обратите внимание!</h4>
+            В режиме работы с геометрическим местом точек доступен только алгоритм построения выпуклой оболочки.
+            В режиме работы с графами - поиск в глубину и поиск в ширину.
+          </div>       
+        </div>               
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          Управление визуализацией
+        </div>
+        <div class="card-block">
+          <p class="card-text">
+            Все основные моменты визуализации, указанные пользователем, помещаются в определённую очередь, элементы из которой потом пошагово достаются и визуализируются с помощью определённых функций.
+            Вызов эти функций реализован с помощью  следюущих кнопок:
+            <ul>
+              <li>
+                Кнопка «Запустить анимацию» запускает цикл, который бежит по очереди событий. Особенность в том, что данная функция не визуализирует данный первый шаг, а лишь ставит указатель на первый элемент в данной очереди.
+              </li>
+              <li>
+                Кнопка «Перейти к следующему шагу» забирает элемент из очереди и визуализирует его.
+              </li>
+              <li>
+                Кнопка «Остановить анимацию» возвращает указатель в начало алгоритма, а также возвращает графический редактор к состоянию перед первым шагом анимации.
+              </li>
+            </ul>
+          </p>
+          <img class="card-img-bottom" src="images\render_buttons.png">
+        </div>
+        <div class="card-block">
+          <p class="card-text">
+            Для отображения пользовательский действий добавлено специальное поле
+          </p>
+          <img class="card-img-bottom" src="images\render_log.png">
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Цвета</h4>
+          <p class="card-text">
+            У инструмента есть несколько заготовленных цветов:
+            <ul>
+              <li>
+                <code>unselected</code> - <button type="button" class="btn btn-secondary" style="background-color: #f00">
+              </li>
+              <li>
+                <code>selected</code> - <button type="button" class="btn btn-secondary" style="background-color: #0f0">
+              </li>
+              <li>
+                <code>inQueue</code> - <button type="button" class="btn btn-secondary" style="background-color: #00f">
+              </li>
+              <li>
+                <code>viewed</code> - <button type="button" class="btn btn-secondary" style="background-color: #ff0">
+              </li>
+            </ul>
+          </p>
+        </div>
+      </div>
+
+      <!-- описание API -->
+
+      <div class="card mb-3">
+        <div class="card-header">
+          Пользовательское API
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Locus Api</h4>
+          <p class="card-text">
+            Для работы с геометрическим местом точек предоставляется своё собственное API под названием "Locus". <br />
+            Создаётся оно очень просто, с помощью кода, представленного ниже: <br />
+            <code> var locus = new Locus(); </code> <br />
+            Данное API имеет следующие методы и свойства:
+            <ul>
+              <li>
+                points - свойство для получения всех точек.
+              </li>
+              <li>
+                classify(start, end, target) - функция вычисления векторого произведения. 
+                Принимает на входе вектор в виде начальной и конечной точки, и целевую точку.
+              </li>
+              <li>
+                markVertex(point, color, text) - функция подсветки точки с добавлением пользователькой информации.
+                Принимает на входе точку, цвет и текст.
+              </li>
+              <li>
+                markEdge(start, end, color, text) - функция подсветки ребра с добавлением пользователькой информации.
+                Принимает на входе вектор в виде начальной и конечной точки, цвет и текст.
+              </li>
+              <li>
+                createEdge(start, end) - функция создание нового ребра. Принимает на входе начальную и конечную точку.
+              </li>
+              <li>
+                deleteEdge(start, end) - функция удаления ребра. Принимает на входе начальную и конечную точку.
+              </li>
+            </ul>
+          </p>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Graph Api</h4>
+          <p class="card-text">
+            Для работы с графами предоставляется своё собственное API под названием "Graph". <br />
+            Создаётся оно очень просто, с помощью кода, представленного ниже: <br />
+            <code> var graph = new Graph(); </code> <br />
+            Данное API имеет следующие методы и свойства:
+            <ul>
+              <li>
+                vertices - свойство для получения всех вершин графа.
+              </li>
+              <li>
+                getNeighbors(vertex) - функция получения всех соседей вершины. Принимает на входе вершину, соседей которой нужно получить.
+              </li>
+              <li>
+                markVertex(point, color, text) - функция подсветки точки с добавлением пользователькой информации.
+                Принимает на входе точку, цвет и текст.
+              </li>
+              <li>
+                markEdge(start, end, color, text) - функция подсветки ребра с добавлением пользователькой информации.
+                Принимает на входе вектор в виде начальной и конечной точки, цвет и текст.
+              </li>
+            </ul>
+          </p>          
+        </div>
+      </div>      
+
+      <!-- пример -->
+
+      <div class="card mb-3">
+        <div class="card-header">
+          Пример
+        </div>
+        <div class="card-block">
+          <p class="card-text">
+            <ul class="list-unstyled">
+              <li>Давайте напишем код для алгоритма поиска в ширину с использованием API.</li>
+              <li>Начнём с создания экземпляра нашего API:</li>
+              <li>
+                <code>var graph = new Graph();</code>
+              </li>
+              <li>Затем, нужно пробежаться по всем вершинам графа. Для этого в API есть свойство, позволяющее достать все вершины графа. Код выглядит следующим образом:</li>
+              <li>
+                <code>for (var i = 0; i &lt; graph.vertices.length; i++) { … }</code>
+              </li>
+              <li>
+                Далее идёт проверка вершины, которую достали из очереди. Для отметки данного действия при анимации, необходимо вызвать функцию <code>markVertex(point, color, text)</code>, и последовательно передать туда вершину, которую необходимо отметить; цвет, которым необходимо пометить данную вершину; текст, который будет использован для описания шага. Выглядит это следующим образом:
+              </li>
+              <li>
+                <code>graph.markVertex(vertex, selected, "Достаём вершину из очереди. Проверяем, были ли эта вершина просмотрена ранее.");</code>
+              </li>
+              <li>
+                Если вершина не была просмотрена, для неё идет поиск смежных вершин. Отметим данное действие рассмотренной выше функцией.
+              </li>
+              <li>                
+                  <code>
+                    graph.markVertex(vertex, selected, "Данная вершина не была просмотрена. Ищем соседей данной вершины.");                    
+                  </code>                                  
+              </li>
+              <li>
+                Функция <code>getNeighbors(vertex)</code> достанет все вершины, смежные с переданной вершиной.
+              </li>
+              <li>  
+                <code>var neighbors = graph.getNeighbors(vertex);</code>
+              </li>
+              <li>  
+                Далее просматриваются все смежные вершины, если таковые существуют.
+                Если вершина не была просмотрена, её нужно добавить в очередь.
+                Вершина, которая просматривается в данный момент, отмечается подсветкой соответствующего ребра.
+                Для подсветки ребра необходимо использовать функцию <code>markEdge(start, end, color, text)</code> и последовательно передать туда вершину – начало ребра; вершину – конец ребра; цвет, которым необходимо пометить данное ребро; текст, который будет использован для описания шага.
+                Код выглядит следующим образом:
+              </li>
+              <li>  
+                <code>  
+                  graph.markEdge(vertex, neighbor, selected, "Данная вершина не была просмотрена, добавляем её в очередь.");
+                </code>
+              </li>
+              <li>  
+                  В зависимости от того, была ли точка отмечена, передаваемый текст будет изменяться. 
+              </li>
+              <li>  
+                  Все основные элементы API по работе с графами были рассмотрены. Используя их, написанный код для поиска в ширину имеет следующий вид:
+              </li>
+              <li>  
+                <pre> 
+                  <code>  
+                      var graph = new Graph();
+                          var queue = new Array();
+                          for (var i = 0; i &lt; graph.vertices.length; i++) {
+                              var startVertex = graph.vertices[i];
+                              if (!startVertex.Viewed){
+                                  queue.push(startVertex);
+                              }        
+                              while (queue.length &gt; 0) {
+                                  var vertex = queue[0];
+                                  queue = queue.slice(1);
+                                  graph.markVertex(vertex, selected, "Достаём вершину из очереди. Проверяем, были ли эта вершина просмотрена ранее.");
+                                  if (!vertex.Viewed){
+                                      graph.markVertex(vertex, selected, "Данная вершина не была просмотрена. Ищем соседей данной вершины.");
+                                      var neighbors = graph.getNeighbors(vertex);
+                                      if (neighbors.length &gt; 0){
+                                          graph.markVertex(vertex, selected, "Просматриваем соседей данной вершины.");
+                                      }
+                                      for (var j = 0; j &lt; neighbors.length; j++){
+                                          var neighbor = neighbors[j];
+                                          if (!neighbor.Viewed){
+                                              if (!neighbor.InQueue){  
+                                                  neighbor.InQueue = true;                    
+                                                  queue.push(neighbor);
+                                                  graph.markEdge(vertex, neighbor, selected, "Данная вершина не была просмотрена, добавляем её в очередь.");
+                                                  graph.markVertex(neighbor, inQueue, "Вершина добавлена в очередь.");
+                                              } else {
+                                                  graph.markEdge(vertex, neighbor, selected, "Данную вершину пропускаем, так как она уже находится в очереди.");                            
+                                              }                    
+                                          } else{
+                                              graph.markEdge(vertex, neighbor, selected, "Данную вершину пропускаем, так как она была просмотрена.");                       
+                                          }                                
+                                      }                
+                                      graph.markVertex(vertex, viewed, "Отмечаем точку как просмотренную.");
+                                      vertex.Viewed = true;
+                                  } else{
+                                      graph.markVertex(vertex, viewed, "Данную вершину пропускаем, так как она была отмечена ранее."); 
+                                  }            
+                              }
+                          }
+                  </code>
+                </pre>
+              </li>
+            </ul>
+          </p>          
+        </div>
+      </div>
+
+    </div>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="js/jquery.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>    
+    <script src="js/bootstrap.file-input.js"></script>
+  </body>
+</html>

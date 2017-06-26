@@ -1,33 +1,152 @@
-<html>
- <head>
-<script src="js/raphael.js" type = "text/javascript"></script>
-<script src="js/jquery.js" type = "text/javascript"></script>
-<script src="Models/Point.js" type = "text/javascript"></script>
-<script src="Models/Line.js" type = "text/javascript"></script>
-<script src="index.js" type = "text/javascript"></script>
-<style>
-body{
-background-color: #555555
-}
-</style>
-    </head>
-    <body style="margin:0">
-		<div>
-			<div>
-				<textarea style="margin:30; margin-top:100; margin-left:100" name="code" id="code" cols="40" rows="20" placeholder="������� ��� ��� ����������"></textarea>
-			</div>
-			<div style="margin-left:100">			
-				<div style="margin-bottom:5">
-					<input type="button" value="���������" id="executeCode" onclick="ExecuteCode()" onkeypress="runOnKeys()">
-				</div>
-				<div style="margin-bottom:5">
-					<input type="button" id="download" value="Download json">		
-				<a id="datalink" download="data.json"></a>				
-				</div>
-				<div style="margin-bottom:5">
-					<input type="file" value="������� ����" id="file">		
-				</div>	
-			</div>			
-		</div>
-    </body>
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="js/raphael.js" type = "text/javascript"></script>
+    <script src="js/jquery.js" type = "text/javascript"></script>
+    <script src="models/Point.js" type = "text/javascript"></script>
+    <script src="models/Line.js" type = "text/javascript"></script>
+    <script src="api/Graph/Graph.js" type = "text/javascript"></script>
+    <script src="api/Graph/algorithms.js" type = "text/javascript"></script>
+    <script src="api/Locus/Locus.js" type = "text/javascript"></script>
+    <script src="api/Locus/algorithms.js" type = "text/javascript"></script>
+    <script src="index.js" type = "text/javascript"></script>    
+    <script src="js/src/ace.js" type="text/javascript" charset="utf-8"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <link href="css/starter-template.css" rel="stylesheet">
+    <style type="text/css" media="screen">
+        #aceEditor { 
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 500px;
+        }
+
+        .image-upload > input
+        {
+            display: none;
+        }
+
+        .image-upload img
+        {
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-light fixed-top" style="background-color: #d9edf7">
+      <div class="container-fluid">
+
+        <div class="row">
+            <div class="col">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-outline-primary active">
+                    <input type="radio" name="mainOptions" id="locus" value="locus" autocomplete="off" checked> Геометрическое место точек
+                  </label>
+                  <label class="btn btn-outline-primary">
+                    <input type="radio" name="mainOptions" id="graph" value="graph" autocomplete="off"> Графы
+                  </label>
+                </div>
+            </div>        
+            <div class="col">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-outline-primary active" id="labelPoints">
+                    <input type="radio" name="paintOptions" id="points" value="points" autocomplete="off" checked> Рисовать точки
+                  </label>
+                  <label class="btn btn-outline-primary disabled" id="labelLines">
+                    <input type="radio" name="paintOptions" id="lines" value="lines" autocomplete="off" disabled="disabled"> Рисовать линии
+                  </label>
+                </div>
+            </div>
+            <div class="col">
+                <a class="btn btn-outline-primary my-2 my-sm-0" href="help.html" role="button" target="_blank">Help</a>                
+            </div>
+        </div>
+          
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-1">          
+          <div class="btn-group btn-group-sm" role="group">        
+            <button type="button" id="download"  class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Сохранить">
+              <img src="icons\download-x16.png">
+              <a id="datalink" download="data.json"></a>
+            </button>
+            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Загрузить" id="upload_button">
+              <img src="icons\upload-x16.png"/>
+              <input id="file" type="file" hidden="true"/>
+            </button>
+          </div>
+        </div>
+        <div class="col-2">          
+          <div class="btn-group btn-group-sm" role="group">        
+            <button type="button" onclick="StartAnimate()" id="startAnimate" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Начать анимацию">
+              <img src="icons\play-x16-black.png">
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="NextPoint()" id="nextStep" disabled="true" data-toggle="tooltip" data-placement="top" title="Перейти к следующему шагу">
+              <img src="icons\fwd-x16.png">
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="Reset()" id="resetAnimate" disabled="true" data-toggle="tooltip" data-placement="top" title="Остановить анимацию">
+              <img src="icons\stop-x16-black.png">
+            </button>        
+          </div>
+        </div>
+        <div class="col">          
+          <div class="alert alert-info" role="alert" id="renderLog"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+            <div id="raphaelEditor"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3">          
+          <select class="custom-select col-6" onchange="OnSelectorChange()" id="functionSelector">
+            <option value="empty" id="optionEmpty"></option>
+            <option value="breadthSearch" id="optionBreadthSearch" hidden="true">Поиск в ширину</option>
+            <option value="depthSearch" id="optionDepthSearch" hidden="true">Поиск в глубину</option>
+            <option value="graham" id="optionGraham">Построение выпуклой оболочки</option>
+          </select>
+        </div>
+        <div class="col-3">          
+          <button type="button" class="btn btn-secondary" id="executeCode" onclick="ExecuteCode()" onkeypress="runOnKeys()" data-toggle="tooltip" data-placement="top" title="Выполнить код, написанный в редакторе">
+            Выполнить
+          </button>
+        </div>
+        <div class="col">          
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:1rem;">
+        <div class="col">            
+            <div id="aceEditor"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->    
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>    
+    <script src="js/bootstrap.file-input.js"></script>
+
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+  </body>
 </html>
